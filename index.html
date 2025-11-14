@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedasar Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f2937; /* Dark background */
+            min-height: 100vh;
+        }
+        .sidebar {
+            background-color: #374151;
+            box-shadow: 4px 0 6px rgba(0, 0, 0, 0.3);
+        }
+        .menu-item {
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .menu-item:hover {
+            background-color: #4b5563;
+        }
+        .menu-item.active {
+            background-color: #f59e0b; /* Amber accent for active game */
+            color: #1f2937;
+            font-weight: bold;
+        }
+        .game-card {
+            background: #ffffff;
+            border: 2px solid #1f2937;
+            box-shadow: 8px 8px 0 #1f2937;
+            min-height: 450px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <div class="sidebar w-full md:w-56 p-4">
+            <h1 class="text-3xl font-extrabold text-white mb-6 border-b-2 border-amber-500 pb-2">
+                Cedasar Website
+            </h1>
+            <nav id="game-nav" class="space-y-2">
+
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('dino_run', this)">
+                    Dino Run
+                </button>
+                
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('snow_racer', this)">
+                    Snow Racer
+                </button>
+                
+                </nav>
+        </div>
+
+        <main class="flex-grow p-4 md:p-8 flex justify-center items-start">
+            <div id="game-content" class="game-card w-full max-w-xl p-6 rounded-xl">
+                <div class="text-center mt-20">
+                    <h2 class="text-3xl font-bold text-gray-700">Welcome to Cedasar Hub!</h2>
+                    <p class="text-gray-500 mt-2">Select a game from the menu on the left to start playing.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="text/javascript">
+        const gameContent = document.getElementById('game-content');
+        let activeGameName = null;
+
+        // --- Game Templates (HTML Snippets) ---
+
+        const gameTemplates = {
+            
+            // =============================================================================================
+            // STEP 2: ADD YOUR GAME TEMPLATES HERE (The ID here MUST match the ID used in the button above)
+            // =============================================================================================
+
+            // TEMPLATE FOR DINO RUN
+            dino_run: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Dino Run (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">Make sure you have uploaded the file **dino_run.swf** to your website's root folder!</p>
+                <div class="flex justify-center items-center w-full min-h-96 bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="dino_run.swf" 
+                        width="100%" 
+                        height="400"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+            
+            // TEMPLATE FOR SNOW RACER
+            snow_racer: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Snow Racer (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">Make sure you have uploaded the file **snow_racer.swf** to your website's root folder!</p>
+                <div class="flex justify-center items-center w-full min-h-96 bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="snow_racer.swf" 
+                        width="100%" 
+                        height="400"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+            
+            // ADD MORE TEMPLATES HERE...
+        };
+
+        // --- Core Launcher Function ---
+
+        function loadGame(gameName, buttonElement) {
+            
+            if (!gameTemplates[gameName]) {
+                 gameContent.innerHTML = `<div class="text-center mt-20"><h2 class="text-3xl text-red-600">ERROR: Game "${gameName}" Not Found!</h2><p class="text-gray-500 mt-2">Check the ID in the navigation and the gameTemplates object.</p></div>`;
+                 return;
+            }
+
+            gameContent.innerHTML = gameTemplates[gameName];
+            activeGameName = gameName;
+
+            // Update active state in sidebar
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.remove('active', 'bg-red-500', 'text-white');
+                btn.classList.add('bg-red-800', 'text-red-300');
+            });
+            
+            // Set the clicked button to active style
+            if (buttonElement) {
+                buttonElement.classList.remove('text-red-300', 'bg-red-800');
+                buttonElement.classList.add('active', 'bg-red-500', 'text-white');
+            }
+        }
+
+        // Automatically load the first game when the website loads
+        window.onload = () => {
+             const firstButton = document.querySelector('#game-nav .menu-item');
+             if (firstButton) {
+                const gameIdMatch = firstButton.getAttribute('onclick').match(/loadGame\('([^']+)'/);
+                if (gameIdMatch && gameIdMatch[1]) {
+                    loadGame(gameIdMatch[1], firstButton);
+                }
+            }
+        };
+
+    </script>
+</body>
+</html>
