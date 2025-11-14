@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedasar Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f2937; /* Dark background */
+            min-height: 100vh;
+        }
+        .sidebar {
+            background-color: #374151;
+            box-shadow: 4px 0 6px rgba(0, 0, 0, 0.3);
+        }
+        .menu-item {
+            transition: background-color 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+        }
+        .menu-item:hover {
+            background-color: #4b5563;
+        }
+        .menu-item.active {
+            background-color: #f59e0b; /* Amber accent for active game */
+            color: #1f2937;
+            font-weight: bold;
+        }
+        .game-card {
+            background: #ffffff;
+            border: 2px solid #1f2937;
+            box-shadow: 8px 8px 0 #1f2937;
+            min-height: 450px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <div class="sidebar w-full md:w-56 p-4">
+            <h1 class="text-3xl font-extrabold text-white mb-6 border-b-2 border-amber-500 pb-2">
+                Cedasar Website
+            </h1>
+            <nav id="game-nav" class="space-y-2">
+
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('earn_to_die_2', this)">
+                    Earn To Die 2
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('cactus_mccoy', this)">
+                    Cactus McCoy
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('bad_ice_cream', this)">
+                    Bad Ice Cream
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('strike_force_heroes_3', this)">
+                    Strike Force Heroes 3
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('madness_project_nexus', this)">
+                    Madness Project Nexus
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('papas_pizzeria', this)">
+                    Papa's Pizzeria
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('grindcraft', this)">
+                    Grindcraft
+                </button>
+                <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('bartender_mix', this)">
+                    Bartender - The Right Mix
+                </button>
+
+            </nav>
+        </div>
+
+        <main class="flex-grow p-4 md:p-8 flex justify-center items-start">
+            <div id="game-content" class="game-card w-full max-w-xl p-6 rounded-xl">
+                <div class="text-center mt-20">
+                    <h2 class="text-3xl font-bold text-gray-700">Welcome to Cedasar Hub!</h2>
+                    <p class="text-gray-500 mt-2">Select a game from the menu on the left to start playing.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="text/javascript">
+        const gameContent = document.getElementById('game-content');
+        let activeGameName = null;
+
+        // --- Game Templates (HTML Snippets) ---
+
+        const gameTemplates = {
+            
+            // Earn To Die 2 (File: earntodie.swf)
+            earn_to_die_2: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Earn To Die 2 (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **earntodie.swf**. Upload this file to your website's root folder.</p>
+                <div class="flex justify-center items-center w-full min-h-[500px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="earntodie.swf" 
+                        width="100%" 
+                        height="500"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+            
+            // Cactus McCoy (File: launcher.swf)
+            cactus_mccoy: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Cactus McCoy (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **launcher.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[480px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="launcher.swf" 
+                        width="100%" 
+                        height="480"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Bad Ice Cream (File: bad-ice-cream.swf)
+            bad_ice_cream: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Bad Ice Cream (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **bad-ice-cream.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[400px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="bad-ice-cream.swf" 
+                        width="100%" 
+                        height="400"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Strike Force Heroes 3 (File: strike-force-heroes-3.swf)
+            strike_force_heroes_3: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Strike Force Heroes 3 (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **strike-force-heroes-3.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="strike-force-heroes-3.swf" 
+                        width="100%" 
+                        height="600"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Madness Project Nexus (File: madness-project-nexus.swf)
+            madness_project_nexus: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Madness Project Nexus (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **madness-project-nexus.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[450px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="madness-project-nexus.swf" 
+                        width="100%" 
+                        height="450"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Papa's Pizzeria (File: papas-pizzeria.swf)
+            papas_pizzeria: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Papa's Pizzeria (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **papas-pizzeria.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="papas-pizzeria.swf" 
+                        width="100%" 
+                        height="600"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Grindcraft (File: grindcraft.swf)
+            grindcraft: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Grindcraft (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **grindcraft.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[500px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="grindcraft.swf" 
+                        width="100%" 
+                        height="500"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Bartender - The Right Mix (File: bartender-the-right-mix.swf)
+            bartender_mix: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Bartender - The Right Mix (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **bartender-the-right-mix.swf**.</p>
+                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                    <embed 
+                        src="bartender-the-right-mix.swf" 
+                        width="100%" 
+                        height="600"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+        };
+
+        // --- Core Launcher Function ---
+
+        function loadGame(gameName, buttonElement) {
+            
+            if (!gameTemplates[gameName]) {
+                 gameContent.innerHTML = `<div class="text-center mt-20"><h2 class="text-3xl text-red-600">ERROR: Game "${gameName}" Not Found!</h2><p class="text-gray-500 mt-2">Check the ID in the navigation and the gameTemplates object.</p></div>`;
+                 return;
+            }
+
+            // Remove old game and insert new template
+            gameContent.innerHTML = gameTemplates[gameName];
+            activeGameName = gameName;
+
+            // Update active state in sidebar
+            document.querySelectorAll('.menu-item').forEach(btn => {
+                btn.classList.remove('active', 'bg-red-500', 'text-white');
+                btn.classList.add('bg-red-800', 'text-red-300');
+            });
+            
+            // Set the clicked button to active style
+            if (buttonElement) {
+                buttonElement.classList.remove('text-red-300', 'bg-red-800');
+                buttonElement.classList.add('active', 'bg-red-500', 'text-white');
+            }
+        }
+
+        // Automatically load the first game when the website loads
+        window.onload = () => {
+             const firstButton = document.querySelector('#game-nav .menu-item');
+             if (firstButton) {
+                // Extracts the game ID from the onclick attribute of the first button
+                const gameIdMatch = firstButton.getAttribute('onclick').match(/loadGame\('([^']+)'/);
+                if (gameIdMatch && gameIdMatch[1]) {
+                    loadGame(gameIdMatch[1], firstButton);
+                }
+            }
+        };
+
+    </script>
+</body>
+</html>
