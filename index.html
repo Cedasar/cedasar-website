@@ -6,7 +6,6 @@
     <title>Cedasar Website</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Ruffle Flash Emulator Script: This is essential for running SWF files -->
     <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <style>
         body {
@@ -35,21 +34,26 @@
             background: #ffffff;
             border: 2px solid #1f2937;
             box-shadow: 8px 8px 0 #1f2937;
-            min-height: 450px;
+            /* Removed min-height to allow card to resize to game dimensions */
+            min-height: 200px; 
+        }
+        /* Custom class to handle the responsive resizing of the game container */
+        .game-display-wrapper {
+            max-width: 100%;
+            height: auto; 
+            margin: 0 auto; /* Center the game */
         }
     </style>
 </head>
 <body>
 
     <div class="flex flex-col md:flex-row min-h-screen">
-        <!-- Sidebar Navigation -->
         <div class="sidebar w-full md:w-56 p-4">
             <h1 class="text-3xl font-extrabold text-white mb-6 border-b-2 border-amber-500 pb-2">
                 Cedasar Website
             </h1>
             <nav id="game-nav" class="space-y-2">
 
-                <!-- 8 Game Buttons -->
                 <button class="menu-item w-full text-left p-3 rounded-lg text-red-300 bg-red-800 hover:bg-red-700" onclick="loadGame('earn_to_die_2', this)">
                     Earn To Die 2
                 </button>
@@ -78,9 +82,8 @@
             </nav>
         </div>
 
-        <!-- Main Game Display Area -->
         <main class="flex-grow p-4 md:p-8 flex justify-center items-start">
-            <div id="game-content" class="game-card w-full max-w-xl p-6 rounded-xl">
+            <div id="game-content" class="game-card w-full max-w-2xl p-6 rounded-xl"> 
                 <div class="text-center mt-20">
                     <h2 class="text-3xl font-bold text-gray-700">Welcome to Cedasar Hub!</h2>
                     <p class="text-gray-500 mt-2">Select a game from the menu on the left to start playing.</p>
@@ -97,113 +100,113 @@
 
         const gameTemplates = {
             
-            // Earn To Die 2 (CORRECTED FILE NAME: earntodie2.swf)
+            // Earn To Die 2 (Corrected File Name & Dimensions 640x480)
             earn_to_die_2: `
                 <h2 class="text-2xl font-bold text-red-700 mb-4">Earn To Die 2 (SWF)</h2>
                 <p class="text-gray-600 mb-4 text-sm">File: **earntodie2.swf**. Upload this file to your website's root folder.</p>
-                <div class="flex justify-center items-center w-full min-h-[500px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                <div class="game-display-wrapper" style="width: 640px; height: 480px;">
                     <embed 
                         src="earntodie2.swf" 
-                        width="100%" 
-                        height="500"
+                        width="640" 
+                        height="480"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
             `,
             
-            // Cactus McCoy (File: launcher.swf)
+            // Cactus McCoy (File: launcher.swf, Dimensions 800x600)
             cactus_mccoy: `
                 <h2 class="text-2xl font-bold text-red-700 mb-4">Cactus McCoy (SWF)</h2>
                 <p class="text-gray-600 mb-4 text-sm">File: **launcher.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[480px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                <div class="game-display-wrapper" style="width: 800px; height: 600px;">
                     <embed 
                         src="launcher.swf" 
-                        width="100%" 
+                        width="800" 
+                        height="600"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Bad Ice Cream (File: bad-ice-cream.swf, Dimensions 400x480)
+            bad_ice_cream: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Bad Ice Cream (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **bad-ice-cream.swf**.</p>
+                <div class="game-display-wrapper" style="width: 400px; height: 480px;">
+                    <embed 
+                        src="bad-ice-cream.swf" 
+                        width="400" 
                         height="480"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
             `,
 
-            // Bad Ice Cream (File: bad-ice-cream.swf)
-            bad_ice_cream: `
-                <h2 class="text-2xl font-bold text-red-700 mb-4">Bad Ice Cream (SWF)</h2>
-                <p class="text-gray-600 mb-4 text-sm">File: **bad-ice-cream.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[400px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+            // Strike Force Heroes 3 (File: strike-force-heroes-3.swf, Dimensions 960x600)
+            strike_force_heroes_3: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Strike Force Heroes 3 (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **strike-force-heroes-3.swf**.</p>
+                <div class="game-display-wrapper" style="width: 960px; height: 600px;">
                     <embed 
-                        src="bad-ice-cream.swf" 
-                        width="100%" 
+                        src="strike-force-heroes-3.swf" 
+                        width="960" 
+                        height="600"
+                        type="application/x-shockwave-flash">
+                    </embed>
+                </div>
+            `,
+
+            // Madness Project Nexus (File: madness-project-nexus.swf, Dimensions 550x400)
+            madness_project_nexus: `
+                <h2 class="text-2xl font-bold text-red-700 mb-4">Madness Project Nexus (SWF)</h2>
+                <p class="text-gray-600 mb-4 text-sm">File: **madness-project-nexus.swf**.</p>
+                <div class="game-display-wrapper" style="width: 550px; height: 400px;">
+                    <embed 
+                        src="madness-project-nexus.swf" 
+                        width="550" 
                         height="400"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
             `,
 
-            // Strike Force Heroes 3 (File: strike-force-heroes-3.swf)
-            strike_force_heroes_3: `
-                <h2 class="text-2xl font-bold text-red-700 mb-4">Strike Force Heroes 3 (SWF)</h2>
-                <p class="text-gray-600 mb-4 text-sm">File: **strike-force-heroes-3.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
-                    <embed 
-                        src="strike-force-heroes-3.swf" 
-                        width="100%" 
-                        height="600"
-                        type="application/x-shockwave-flash">
-                    </embed>
-                </div>
-            `,
-
-            // Madness Project Nexus (File: madness-project-nexus.swf)
-            madness_project_nexus: `
-                <h2 class="text-2xl font-bold text-red-700 mb-4">Madness Project Nexus (SWF)</h2>
-                <p class="text-gray-600 mb-4 text-sm">File: **madness-project-nexus.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[450px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
-                    <embed 
-                        src="madness-project-nexus.swf" 
-                        width="100%" 
-                        height="450"
-                        type="application/x-shockwave-flash">
-                    </embed>
-                </div>
-            `,
-
-            // Papa's Pizzeria (File: papas-pizzeria.swf)
+            // Papa's Pizzeria (File: papas-pizzeria.swf, Dimensions 720x480)
             papas_pizzeria: `
                 <h2 class="text-2xl font-bold text-red-700 mb-4">Papa's Pizzeria (SWF)</h2>
                 <p class="text-gray-600 mb-4 text-sm">File: **papas-pizzeria.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                <div class="game-display-wrapper" style="width: 720px; height: 480px;">
                     <embed 
                         src="papas-pizzeria.swf" 
-                        width="100%" 
-                        height="600"
+                        width="720" 
+                        height="480"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
             `,
 
-            // Grindcraft (File: grindcraft.swf)
+            // Grindcraft (File: grindcraft.swf, Dimensions 800x600)
             grindcraft: `
                 <h2 class="text-2xl font-bold text-red-700 mb-4">Grindcraft (SWF)</h2>
                 <p class="text-gray-600 mb-4 text-sm">File: **grindcraft.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[500px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                <div class="game-display-wrapper" style="width: 800px; height: 600px;">
                     <embed 
                         src="grindcraft.swf" 
-                        width="100%" 
-                        height="500"
+                        width="800" 
+                        height="600"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
             `,
 
-            // Bartender - The Right Mix (File: bartender-the-right-mix.swf)
+            // Bartender - The Right Mix (File: bartender-the-right-mix.swf, Dimensions 700x500)
             bartender_mix: `
                 <h2 class="text-2xl font-bold text-red-700 mb-4">Bartender - The Right Mix (SWF)</h2>
                 <p class="text-gray-600 mb-4 text-sm">File: **bartender-the-right-mix.swf**.</p>
-                <div class="flex justify-center items-center w-full min-h-[600px] bg-gray-900 rounded-lg overflow-hidden border-4 border-red-500">
+                <div class="game-display-wrapper" style="width: 700px; height: 500px;">
                     <embed 
                         src="bartender-the-right-mix.swf" 
-                        width="100%" 
-                        height="600"
+                        width="700" 
+                        height="500"
                         type="application/x-shockwave-flash">
                     </embed>
                 </div>
